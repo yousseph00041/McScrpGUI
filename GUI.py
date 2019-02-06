@@ -79,9 +79,12 @@ class MainWindow(QWidget,Ui_Form):
         sc = mcscrp()
         data = get(self.text.text()).text
         tags = sc.get_tags(data)
-        for tag in tags:
-            for dt in sc.scrp(data, tag)['txt']:
-                print(dt)
+        self.tableWidget.setColumnCount(len(tags))
+        self.tableWidget.setRowCount(len(tags))
+        self.tableWidget.setHorizontalHeaderLabels(tags)
+        for r,tag in enumerate(tags):
+            for c,dt in enumerate(sc.scrp(data, tag)['txt']):
+                self.tableWidget.setItem(c,r,QtWidgets.QTableWidgetItem(str(dt)))
 
 app = QApplication(sys.argv)
 frm = MainWindow()
